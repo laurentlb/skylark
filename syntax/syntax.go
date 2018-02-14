@@ -10,6 +10,7 @@ type Node interface {
 	// Span returns the start and end position of the expression.
 	Span() (start, end Position)
 
+<<<<<<< HEAD
 	// Comments returns the comments associated with this node.
 	// It returns nil if RetainComments was not specified during parsing,
 	// or if AllocComments was not called.
@@ -18,24 +19,38 @@ type Node interface {
 	// AllocComments allocates a new Comments node if there was none.
 	// This makes possible to add new comments using Comments() method.
 	AllocComments()
+=======
+	Comment() *Comments
+>>>>>>> Attach comments to AST nodes.
 }
 
 // A Comment represents a single # comment.
 type Comment struct {
+<<<<<<< HEAD
 	Start Position
 	Text  string // without trailing newline
+=======
+	Start  Position
+	Token  string // without trailing newline
+	Suffix bool   // an end of line (not whole line) comment
+>>>>>>> Attach comments to AST nodes.
 }
 
 // Comments collects the comments associated with an expression.
 type Comments struct {
 	Before []Comment // whole-line comments before this expression
+<<<<<<< HEAD
 	Suffix []Comment // end-of-line comments after this expression (up to 1)
+=======
+	Suffix []Comment // end-of-line comments after this expression
+>>>>>>> Attach comments to AST nodes.
 
 	// For top-level expressions only, After lists whole-line
 	// comments following the expression.
 	After []Comment
 }
 
+<<<<<<< HEAD
 // A commentsRef is a possibly-nil reference to a set of comments.
 // A commentsRef is embedded in each type of syntax node,
 // and provides its Comments and AllocComments methods.
@@ -50,6 +65,14 @@ func (cr *commentsRef) AllocComments() {
 	if cr.ref == nil {
 		cr.ref = new(Comments)
 	}
+=======
+// Comment returns the receiver. This isn't useful by itself, but
+// a Comments struct is embedded into all the expression
+// implementation types, and this gives each of those a Comment
+// method to satisfy the Expr interface.
+func (c *Comments) Comment() *Comments {
+	return c
+>>>>>>> Attach comments to AST nodes.
 }
 
 // Start returns the start position of the expression.
@@ -66,7 +89,11 @@ func End(n Node) Position {
 
 // A File represents a Skylark file.
 type File struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	Path  string
 	Stmts []Stmt
 
@@ -103,7 +130,11 @@ func (*ReturnStmt) stmt() {}
 //	x, y = y, x
 // 	x += 1
 type AssignStmt struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	OpPos Position
 	Op    Token // = EQ | {PLUS,MINUS,STAR,PERCENT}_EQ
 	LHS   Expr
@@ -118,7 +149,11 @@ func (x *AssignStmt) Span() (start, end Position) {
 
 // A Function represents the common parts of LambdaExpr and DefStmt.
 type Function struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	StartPos Position // position of DEF or LAMBDA token
 	Params   []Expr   // param = ident | ident=expr | *ident | **ident
 	Body     []Stmt
@@ -137,7 +172,11 @@ func (x *Function) Span() (start, end Position) {
 
 // A DefStmt represents a function definition.
 type DefStmt struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	Def  Position
 	Name *Ident
 	Function
@@ -150,7 +189,11 @@ func (x *DefStmt) Span() (start, end Position) {
 
 // An ExprStmt is an expression evaluated for side effects.
 type ExprStmt struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	X Expr
 }
 
@@ -161,7 +204,11 @@ func (x *ExprStmt) Span() (start, end Position) {
 // An IfStmt is a conditional: If Cond: True; else: False.
 // 'elseif' is desugared into a chain of IfStmts.
 type IfStmt struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	If      Position // IF or ELIF
 	Cond    Expr
 	True    []Stmt
@@ -187,7 +234,11 @@ func (x *IfStmt) Span() (start, end Position) {
 // without.  For consistency we create fake identifiers for all the
 // strings.
 type LoadStmt struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	Load   Position
 	Module *Literal // a string
 	From   []*Ident // name defined in loading module
@@ -201,7 +252,11 @@ func (x *LoadStmt) Span() (start, end Position) {
 
 // A BranchStmt changes the flow of control: break, continue, pass.
 type BranchStmt struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	Token    Token // = BREAK | CONTINUE | PASS
 	TokenPos Position
 }
@@ -212,7 +267,11 @@ func (x *BranchStmt) Span() (start, end Position) {
 
 // A ReturnStmt returns from a function.
 type ReturnStmt struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	Return Position
 	Result Expr // may be nil
 }
@@ -249,7 +308,11 @@ func (*UnaryExpr) expr()     {}
 
 // An Ident represents an identifier.
 type Ident struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	NamePos Position
 	Name    string
 
@@ -265,7 +328,11 @@ func (x *Ident) Span() (start, end Position) {
 
 // A Literal represents a literal string or number.
 type Literal struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	Token    Token // = STRING | INT
 	TokenPos Position
 	Raw      string      // uninterpreted text
@@ -278,7 +345,11 @@ func (x *Literal) Span() (start, end Position) {
 
 // A CallExpr represents a function call expression: Fn(Args).
 type CallExpr struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	Fn     Expr
 	Lparen Position
 	Args   []Expr
@@ -292,7 +363,11 @@ func (x *CallExpr) Span() (start, end Position) {
 
 // A DotExpr represents a field or method selector: X.Name.
 type DotExpr struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	X       Expr
 	Dot     Position
 	NamePos Position
@@ -308,7 +383,11 @@ func (x *DotExpr) Span() (start, end Position) {
 // A Comprehension represents a list or dict comprehension:
 // [Body for ... if ...] or {Body for ... if ...}
 type Comprehension struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	Curly   bool // {x:y for ...} or {x for ...}, not [x for ...]
 	Lbrack  Position
 	Body    Expr
@@ -322,7 +401,11 @@ func (x *Comprehension) Span() (start, end Position) {
 
 // A ForStmt represents a loop: for Vars in X: Body.
 type ForStmt struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	For  Position
 	Vars Expr // name, or tuple of names
 	X    Expr
@@ -336,7 +419,11 @@ func (x *ForStmt) Span() (start, end Position) {
 
 // A ForClause represents a for clause in a list comprehension: for Vars in X.
 type ForClause struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	For  Position
 	Vars Expr // name, or tuple of names
 	In   Position
@@ -350,7 +437,11 @@ func (x *ForClause) Span() (start, end Position) {
 
 // An IfClause represents an if clause in a list comprehension: if Cond.
 type IfClause struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	If   Position
 	Cond Expr
 }
@@ -362,7 +453,11 @@ func (x *IfClause) Span() (start, end Position) {
 
 // A DictExpr represents a dictionary literal: { List }.
 type DictExpr struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	Lbrace Position
 	List   []Expr // all *DictEntrys
 	Rbrace Position
@@ -375,7 +470,11 @@ func (x *DictExpr) Span() (start, end Position) {
 // A DictEntry represents a dictionary entry: Key: Value.
 // Used only within a DictExpr.
 type DictEntry struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	Key   Expr
 	Colon Position
 	Value Expr
@@ -393,7 +492,11 @@ func (x *DictEntry) Span() (start, end Position) {
 // currently part of the Skylark spec, so their use is controlled by the
 // resolver.AllowLambda flag.
 type LambdaExpr struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	Lambda Position
 	Function
 }
@@ -405,7 +508,11 @@ func (x *LambdaExpr) Span() (start, end Position) {
 
 // A ListExpr represents a list literal: [ List ].
 type ListExpr struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	Lbrack Position
 	List   []Expr
 	Rbrack Position
@@ -417,7 +524,11 @@ func (x *ListExpr) Span() (start, end Position) {
 
 // CondExpr represents the conditional: X if COND else ELSE.
 type CondExpr struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	If      Position
 	Cond    Expr
 	True    Expr
@@ -433,7 +544,11 @@ func (x *CondExpr) Span() (start, end Position) {
 
 // A TupleExpr represents a tuple literal: (List).
 type TupleExpr struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	Lparen Position // optional (e.g. in x, y = 0, 1), but required if List is empty
 	List   []Expr
 	Rparen Position
@@ -449,7 +564,11 @@ func (x *TupleExpr) Span() (start, end Position) {
 
 // A UnaryExpr represents a unary expression: Op X.
 type UnaryExpr struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	OpPos Position
 	Op    Token
 	X     Expr
@@ -462,7 +581,11 @@ func (x *UnaryExpr) Span() (start, end Position) {
 
 // A BinaryExpr represents a binary expression: X Op Y.
 type BinaryExpr struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	X     Expr
 	OpPos Position
 	Op    Token
@@ -477,7 +600,11 @@ func (x *BinaryExpr) Span() (start, end Position) {
 
 // A SliceExpr represents a slice or substring expression: X[Lo:Hi:Step].
 type SliceExpr struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	X            Expr
 	Lbrack       Position
 	Lo, Hi, Step Expr // all optional
@@ -491,7 +618,11 @@ func (x *SliceExpr) Span() (start, end Position) {
 
 // An IndexExpr represents an index expression: X[Y].
 type IndexExpr struct {
+<<<<<<< HEAD
 	commentsRef
+=======
+	Comments
+>>>>>>> Attach comments to AST nodes.
 	X      Expr
 	Lbrack Position
 	Y      Expr
