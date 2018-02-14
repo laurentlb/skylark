@@ -258,6 +258,7 @@ func stripPos(err error) string {
 func treeString(n syntax.Node) string {
 	var buf bytes.Buffer
 	writeTree(&buf, reflect.ValueOf(n))
+	// Skip comments fields
 	return buf.String()
 }
 
@@ -291,7 +292,12 @@ func writeTree(out *bytes.Buffer, x reflect.Value) {
 				continue // skip positions
 			}
 			name := x.Type().Field(i).Name
+<<<<<<< HEAD
 			if name == "commentsRef" {
+=======
+			//strings.Replace(, " Comments=(Comments)", "", -1)
+			if name == "Comments" {
+>>>>>>> - Rename flattenAST
 				continue // skip comments fields
 			}
 			if f.Type() == reflect.TypeOf(syntax.Token(0)) {

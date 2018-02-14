@@ -28,6 +28,12 @@ const (
 const keepComments = false
 >>>>>>> Attach comments to AST nodes.
 
+type Mode uint
+
+const (
+	RetainComments Mode = 1 << iota
+)
+
 // Parse parses the input data and returns the corresponding parse tree.
 //
 // If src != nil, ParseFile parses the source from src and the filename
@@ -982,6 +988,7 @@ func terminatesExprList(tok Token) bool {
 // end-of-line comment to the syntax immediately preceding it.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // flattenAST returns the list of AST nodes, both in prefix order and in postfix
 // order.
 func flattenAST(root Node) (pre, post []Node) {
@@ -989,10 +996,11 @@ func flattenAST(root Node) (pre, post []Node) {
 	Walk(root, func(n Node) bool {
 =======
 // flattenAst returns the list of AST nodes, both in prefix order and in postfix
+=======
+// flattenAST returns the list of AST nodes, both in prefix order and in postfix
+>>>>>>> - Rename flattenAST
 // order.
-func flattenAst(f *File) (pre []Node, post []Node) {
-	pre = []Node{}
-	post = []Node{}
+func flattenAST(f *File) (pre, post []Node) {
 	stack := []Node{}
 	Walk(f, func(n Node) bool {
 >>>>>>> Attach comments to AST nodes.
@@ -1024,7 +1032,7 @@ func (p *parser) assignComments(n Node) {
 		start, _ := x.Span()
 =======
 func (p *parser) assignComments(f *File) {
-	pre, post := flattenAst(f)
+	pre, post := flattenAST(f)
 
 	// Split into whole-line comments and suffix comments.
 	var line, suffix []Comment

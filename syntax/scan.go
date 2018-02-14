@@ -218,6 +218,7 @@ func (p Position) IsBefore(p2 Position) bool {
 // An scanner represents a single input file being parsed.
 type scanner struct {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	complete       []byte    // entire input
 	rest           []byte    // rest of input
 	token          []byte    // token being scanned
@@ -240,6 +241,18 @@ type scanner struct {
 	lineStart bool     // after NEWLINE; convert spaces to indentation tokens
 	blank     bool
 >>>>>>> Fix tests by saving the state of 'blank' in the scanner.
+=======
+	complete     []byte   // entire input
+	rest         []byte   // rest of input
+	token        []byte   // token being scanned
+	pos          Position // current input position
+	depth        int      // nesting of [ ] { } ( )
+	indentstk    []int    // stack of indentation levels
+	dents        int      // number of saved INDENT (>0) or OUTDENT (<0) tokens to return
+	lineStart    bool     // after NEWLINE; convert spaces to indentation tokens
+	blank        bool     // true when the line is blank
+	keepComments bool     // if false, do not return comments tokens
+>>>>>>> - Rename flattenAST
 }
 
 func newScanner(filename string, src interface{}, keepComments bool) (*scanner, error) {
@@ -498,6 +511,7 @@ start:
 	// comment
 	if c == '#' {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if sc.keepComments {
 			sc.startToken(val)
 		}
@@ -508,12 +522,18 @@ start:
 		// Consume up to (but not including) newline.
 >>>>>>> Attach comments to AST nodes.
 =======
+=======
+		if keepComments {
+			sc.startToken(val)
+		}
+>>>>>>> - Rename flattenAST
 		// Consume up to newline (included).
 >>>>>>> Fix tests by saving the state of 'blank' in the scanner.
 		for c != 0 && c != '\n' {
 			sc.readRune()
 			c = sc.peekRune()
 		}
+<<<<<<< HEAD
 <<<<<<< HEAD
 		if sc.keepComments {
 			sc.endToken(val)
@@ -529,6 +549,15 @@ start:
 		} else {
 			return SUFFIX_COMMENT
 >>>>>>> Attach comments to AST nodes.
+=======
+		if keepComments {
+			sc.endToken(val)
+			if sc.blank {
+				return LINE_COMMENT
+			} else {
+				return SUFFIX_COMMENT
+			}
+>>>>>>> - Rename flattenAST
 		}
 	}
 
