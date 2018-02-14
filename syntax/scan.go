@@ -512,6 +512,7 @@ start:
 	if c == '#' {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if sc.keepComments {
 			sc.startToken(val)
 		}
@@ -524,6 +525,9 @@ start:
 =======
 =======
 		if keepComments {
+=======
+		if sc.keepComments {
+>>>>>>> Remove global constant keepComments
 			sc.startToken(val)
 		}
 >>>>>>> - Rename flattenAST
@@ -533,6 +537,7 @@ start:
 			sc.readRune()
 			c = sc.peekRune()
 		}
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 		if sc.keepComments {
@@ -551,6 +556,9 @@ start:
 >>>>>>> Attach comments to AST nodes.
 =======
 		if keepComments {
+=======
+		if sc.keepComments {
+>>>>>>> Remove global constant keepComments
 			sc.endToken(val)
 			if sc.blank {
 				return LINE_COMMENT

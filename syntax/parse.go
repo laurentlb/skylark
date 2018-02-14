@@ -17,6 +17,7 @@ import "log"
 const debug = false
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // A Mode value is a set of flags (or 0) that controls optional parser functionality.
 type Mode uint
 
@@ -28,6 +29,8 @@ const (
 const keepComments = false
 >>>>>>> Attach comments to AST nodes.
 
+=======
+>>>>>>> Remove global constant keepComments
 type Mode uint
 
 const (
@@ -55,9 +58,13 @@ func Parse(filename string, src interface{}, mode Mode) (f *File, err error) {
 		f.Path = filename
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 	p.assignComments(f)
 =======
 	if keepComments {
+=======
+	if mode&RetainComments != 0 {
+>>>>>>> Remove global constant keepComments
 		p.assignComments(f)
 	}
 >>>>>>> Attach comments to AST nodes.
@@ -104,10 +111,8 @@ func (p *parser) nextToken() Position {
 	p.tok = p.in.nextToken(&p.tokval)
 	// save comments
 	for p.tok == LINE_COMMENT || p.tok == SUFFIX_COMMENT {
-		if keepComments {
-			suffix := p.tok == SUFFIX_COMMENT
-			p.comments = append(p.comments, Comment{p.tokval.pos, p.tokval.raw, suffix})
-		}
+		suffix := p.tok == SUFFIX_COMMENT
+		p.comments = append(p.comments, Comment{p.tokval.pos, p.tokval.raw, suffix})
 		p.tok = p.in.nextToken(&p.tokval)
 	}
 	// enable to see the token stream

@@ -31,11 +31,15 @@ type Comment struct {
 	Text  string // without trailing newline
 =======
 	Start  Position
+<<<<<<< HEAD
 	Token  string // without trailing newline
 <<<<<<< HEAD
 	Suffix bool   // an end of line (not whole line) comment
 >>>>>>> Attach comments to AST nodes.
 =======
+=======
+	Text   string // without trailing newline
+>>>>>>> Remove global constant keepComments
 	Suffix bool   // an end-of-line (not whole line) comment
 >>>>>>> - Rename flattenAST
 }
