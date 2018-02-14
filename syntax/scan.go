@@ -217,6 +217,7 @@ func (p Position) IsBefore(p2 Position) bool {
 
 // An scanner represents a single input file being parsed.
 type scanner struct {
+<<<<<<< HEAD
 	complete       []byte    // entire input
 	rest           []byte    // rest of input
 	token          []byte    // token being scanned
@@ -228,6 +229,17 @@ type scanner struct {
 	keepComments   bool      // accumulate comments in slice
 	lineComments   []Comment // list of full line comments (if keepComments)
 	suffixComments []Comment // list of suffix comments (if keepComments)
+=======
+	complete  []byte   // entire input
+	rest      []byte   // rest of input
+	token     []byte   // token being scanned
+	pos       Position // current input position
+	depth     int      // nesting of [ ] { } ( )
+	indentstk []int    // stack of indentation levels
+	dents     int      // number of saved INDENT (>0) or OUTDENT (<0) tokens to return
+	lineStart bool     // after NEWLINE; convert spaces to indentation tokens
+	blank     bool
+>>>>>>> Fix tests by saving the state of 'blank' in the scanner.
 }
 
 func newScanner(filename string, src interface{}, keepComments bool) (*scanner, error) {
@@ -417,7 +429,6 @@ start:
 	var c rune
 
 	// Deal with leading spaces and indentation.
-	blank := false
 	savedLineStart := sc.lineStart
 	if sc.lineStart {
 		sc.lineStart = false
@@ -437,12 +448,12 @@ start:
 		}
 		// The third clause is "trailing spaces without newline at EOF".
 		if c == '#' || c == '\n' || c == 0 && col > 0 {
-			blank = true
+			sc.blank = true
 		}
 
 		// Compute indentation level for non-blank lines not
 		// inside an expression.  This is not the common case.
-		if !blank && sc.depth == 0 {
+		if !sc.blank && sc.depth == 0 {
 			cur := sc.indentstk[len(sc.indentstk)-1]
 			if col > cur {
 				// indent
@@ -465,6 +476,7 @@ start:
 	if sc.dents != 0 {
 		sc.startToken(val)
 		sc.endToken(val)
+		sc.blank = false
 		if sc.dents < 0 {
 			sc.dents++
 			return OUTDENT
@@ -492,8 +504,12 @@ start:
 		// Consume up to newline (included).
 =======
 		sc.startToken(val)
+<<<<<<< HEAD
 		// Consume up to (but not including) newline.
 >>>>>>> Attach comments to AST nodes.
+=======
+		// Consume up to newline (included).
+>>>>>>> Fix tests by saving the state of 'blank' in the scanner.
 		for c != 0 && c != '\n' {
 			sc.readRune()
 			c = sc.peekRune()
@@ -508,7 +524,7 @@ start:
 			}
 =======
 		sc.endToken(val)
-		if blank {
+		if sc.blank {
 			return LINE_COMMENT
 		} else {
 			return SUFFIX_COMMENT
@@ -519,17 +535,21 @@ start:
 	// newline
 	if c == '\n' {
 		sc.lineStart = true
-		if blank || sc.depth > 0 {
+		if sc.blank || sc.depth > 0 {
 			// Ignore blank lines, or newlines within expressions (common case).
 			sc.readRune()
+			sc.blank = false
 			goto start
 		}
 		// At top-level (not in an expression).
 		sc.startToken(val)
 		sc.readRune()
 		val.raw = "\n"
+		sc.blank = false
 		return NEWLINE
 	}
+
+	sc.blank = false
 
 	// end of file
 	if c == 0 {
