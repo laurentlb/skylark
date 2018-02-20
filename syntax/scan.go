@@ -201,6 +201,7 @@ func (p Position) String() string {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 func (p Position) isBefore(q Position) bool {
 	if p.Line != q.Line {
 		return p.Line < q.Line
@@ -213,6 +214,13 @@ func (p Position) IsBefore(p2 Position) bool {
 	}
 	return p.Col < p2.Col
 >>>>>>> Attach comments to AST nodes.
+=======
+func (p Position) isBefore(q Position) bool {
+	if p.Line != q.Line {
+		return p.Line < q.Line
+	}
+	return p.Col < q.Col
+>>>>>>> Add CommentsRef to allow allocating comments
 }
 
 // An scanner represents a single input file being parsed.

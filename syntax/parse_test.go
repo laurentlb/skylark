@@ -293,11 +293,15 @@ func writeTree(out *bytes.Buffer, x reflect.Value) {
 			}
 			name := x.Type().Field(i).Name
 <<<<<<< HEAD
+<<<<<<< HEAD
 			if name == "commentsRef" {
 =======
 			//strings.Replace(, " Comments=(Comments)", "", -1)
 			if name == "Comments" {
 >>>>>>> - Rename flattenAST
+=======
+			if name == "CommentsRef" {
+>>>>>>> Add CommentsRef to allow allocating comments
 				continue // skip comments fields
 			}
 			if f.Type() == reflect.TypeOf(syntax.Token(0)) {

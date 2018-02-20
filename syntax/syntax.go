@@ -11,6 +11,7 @@ type Node interface {
 	Span() (start, end Position)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	// Comments returns the comments associated with this node.
 	// It returns nil if RetainComments was not specified during parsing,
 	// or if AllocComments was not called.
@@ -22,6 +23,10 @@ type Node interface {
 =======
 	Comment() *Comments
 >>>>>>> Attach comments to AST nodes.
+=======
+	AllocComments()
+	Comments() *Comments
+>>>>>>> Add CommentsRef to allow allocating comments
 }
 
 // A Comment represents a single # comment.
@@ -59,6 +64,7 @@ type Comments struct {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // A commentsRef is a possibly-nil reference to a set of comments.
 // A commentsRef is embedded in each type of syntax node,
 // and provides its Comments and AllocComments methods.
@@ -81,6 +87,22 @@ func (cr *commentsRef) AllocComments() {
 func (c *Comments) Comment() *Comments {
 	return c
 >>>>>>> Attach comments to AST nodes.
+=======
+// A CommentsRef is a possibly-nil reference to a set of comments.
+// A CommentsRef is embedded in each type of syntax node,
+// and provides its Comments and AllocComments methods.
+type CommentsRef struct{ ref *Comments }
+
+// Comments returns the comments associated with a syntax node,
+// or nil if AllocComments has not yet been called.
+func (cr CommentsRef) Comments() *Comments { return cr.ref }
+
+// AllocComments enables comments to be associated with a syntax node.
+func (cr *CommentsRef) AllocComments() {
+	if cr.ref == nil {
+		cr.ref = new(Comments)
+	}
+>>>>>>> Add CommentsRef to allow allocating comments
 }
 
 // Start returns the start position of the expression.
@@ -99,6 +121,7 @@ func End(n Node) Position {
 type File struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -106,6 +129,9 @@ type File struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	Path  string
 	Stmts []Stmt
 
@@ -144,6 +170,7 @@ func (*ReturnStmt) stmt() {}
 type AssignStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -151,6 +178,9 @@ type AssignStmt struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	OpPos Position
 	Op    Token // = EQ | {PLUS,MINUS,STAR,PERCENT}_EQ
 	LHS   Expr
@@ -167,6 +197,7 @@ func (x *AssignStmt) Span() (start, end Position) {
 type Function struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -174,6 +205,9 @@ type Function struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	StartPos Position // position of DEF or LAMBDA token
 	Params   []Expr   // param = ident | ident=expr | *ident | **ident
 	Body     []Stmt
@@ -194,6 +228,7 @@ func (x *Function) Span() (start, end Position) {
 type DefStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -201,6 +236,9 @@ type DefStmt struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	Def  Position
 	Name *Ident
 	Function
@@ -215,6 +253,7 @@ func (x *DefStmt) Span() (start, end Position) {
 type ExprStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -222,6 +261,9 @@ type ExprStmt struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	X Expr
 }
 
@@ -234,6 +276,7 @@ func (x *ExprStmt) Span() (start, end Position) {
 type IfStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -241,6 +284,9 @@ type IfStmt struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	If      Position // IF or ELIF
 	Cond    Expr
 	True    []Stmt
@@ -268,6 +314,7 @@ func (x *IfStmt) Span() (start, end Position) {
 type LoadStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -275,6 +322,9 @@ type LoadStmt struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	Load   Position
 	Module *Literal // a string
 	From   []*Ident // name defined in loading module
@@ -290,6 +340,7 @@ func (x *LoadStmt) Span() (start, end Position) {
 type BranchStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -297,6 +348,9 @@ type BranchStmt struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	Token    Token // = BREAK | CONTINUE | PASS
 	TokenPos Position
 }
@@ -309,6 +363,7 @@ func (x *BranchStmt) Span() (start, end Position) {
 type ReturnStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -316,6 +371,9 @@ type ReturnStmt struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	Return Position
 	Result Expr // may be nil
 }
@@ -354,6 +412,7 @@ func (*UnaryExpr) expr()     {}
 type Ident struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -361,6 +420,9 @@ type Ident struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	NamePos Position
 	Name    string
 
@@ -378,6 +440,7 @@ func (x *Ident) Span() (start, end Position) {
 type Literal struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -385,6 +448,9 @@ type Literal struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	Token    Token // = STRING | INT
 	TokenPos Position
 	Raw      string      // uninterpreted text
@@ -399,6 +465,7 @@ func (x *Literal) Span() (start, end Position) {
 type CallExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -406,6 +473,9 @@ type CallExpr struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	Fn     Expr
 	Lparen Position
 	Args   []Expr
@@ -421,6 +491,7 @@ func (x *CallExpr) Span() (start, end Position) {
 type DotExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -428,6 +499,9 @@ type DotExpr struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	X       Expr
 	Dot     Position
 	NamePos Position
@@ -445,6 +519,7 @@ func (x *DotExpr) Span() (start, end Position) {
 type Comprehension struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -452,6 +527,9 @@ type Comprehension struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	Curly   bool // {x:y for ...} or {x for ...}, not [x for ...]
 	Lbrack  Position
 	Body    Expr
@@ -467,6 +545,7 @@ func (x *Comprehension) Span() (start, end Position) {
 type ForStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -474,6 +553,9 @@ type ForStmt struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	For  Position
 	Vars Expr // name, or tuple of names
 	X    Expr
@@ -489,6 +571,7 @@ func (x *ForStmt) Span() (start, end Position) {
 type ForClause struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -496,6 +579,9 @@ type ForClause struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	For  Position
 	Vars Expr // name, or tuple of names
 	In   Position
@@ -511,6 +597,7 @@ func (x *ForClause) Span() (start, end Position) {
 type IfClause struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -518,6 +605,9 @@ type IfClause struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	If   Position
 	Cond Expr
 }
@@ -531,6 +621,7 @@ func (x *IfClause) Span() (start, end Position) {
 type DictExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -538,6 +629,9 @@ type DictExpr struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	Lbrace Position
 	List   []Expr // all *DictEntrys
 	Rbrace Position
@@ -552,6 +646,7 @@ func (x *DictExpr) Span() (start, end Position) {
 type DictEntry struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -559,6 +654,9 @@ type DictEntry struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	Key   Expr
 	Colon Position
 	Value Expr
@@ -578,6 +676,7 @@ func (x *DictEntry) Span() (start, end Position) {
 type LambdaExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -585,6 +684,9 @@ type LambdaExpr struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	Lambda Position
 	Function
 }
@@ -598,6 +700,7 @@ func (x *LambdaExpr) Span() (start, end Position) {
 type ListExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -605,6 +708,9 @@ type ListExpr struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	Lbrack Position
 	List   []Expr
 	Rbrack Position
@@ -618,6 +724,7 @@ func (x *ListExpr) Span() (start, end Position) {
 type CondExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -625,6 +732,9 @@ type CondExpr struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	If      Position
 	Cond    Expr
 	True    Expr
@@ -642,6 +752,7 @@ func (x *CondExpr) Span() (start, end Position) {
 type TupleExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -649,6 +760,9 @@ type TupleExpr struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	Lparen Position // optional (e.g. in x, y = 0, 1), but required if List is empty
 	List   []Expr
 	Rparen Position
@@ -666,6 +780,7 @@ func (x *TupleExpr) Span() (start, end Position) {
 type UnaryExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -673,6 +788,9 @@ type UnaryExpr struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	OpPos Position
 	Op    Token
 	X     Expr
@@ -687,6 +805,7 @@ func (x *UnaryExpr) Span() (start, end Position) {
 type BinaryExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -694,6 +813,9 @@ type BinaryExpr struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	X     Expr
 	OpPos Position
 	Op    Token
@@ -710,6 +832,7 @@ func (x *BinaryExpr) Span() (start, end Position) {
 type SliceExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -717,6 +840,9 @@ type SliceExpr struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	X            Expr
 	Lbrack       Position
 	Lo, Hi, Step Expr // all optional
@@ -732,6 +858,7 @@ func (x *SliceExpr) Span() (start, end Position) {
 type IndexExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -739,6 +866,9 @@ type IndexExpr struct {
 =======
 	*Comments
 >>>>>>> - Rename flattenAST
+=======
+	CommentsRef
+>>>>>>> Add CommentsRef to allow allocating comments
 	X      Expr
 	Lbrack Position
 	Y      Expr
