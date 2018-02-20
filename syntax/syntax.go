@@ -12,6 +12,7 @@ type Node interface {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	// Comments returns the comments associated with this node.
 	// It returns nil if RetainComments was not specified during parsing,
 	// or if AllocComments was not called.
@@ -27,6 +28,15 @@ type Node interface {
 	AllocComments()
 	Comments() *Comments
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	// Comments returns the comments associated with this node.
+	// It returns nil if RetainComments was not specified during parsing.
+	Comments() *Comments
+
+	// AllocComments allocates a new Comments node if there was none.
+	// This makes possible to add new comments using Comments() method.
+	AllocComments()
+>>>>>>> Remove the COMMENT tokens
 }
 
 // A Comment represents a single # comment.
