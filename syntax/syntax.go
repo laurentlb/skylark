@@ -30,7 +30,8 @@ type Node interface {
 >>>>>>> Add CommentsRef to allow allocating comments
 =======
 	// Comments returns the comments associated with this node.
-	// It returns nil if RetainComments was not specified during parsing.
+	// It returns nil if RetainComments was not specified during parsing,
+	// or if AllocComments was not called.
 	Comments() *Comments
 
 	// AllocComments allocates a new Comments node if there was none.
