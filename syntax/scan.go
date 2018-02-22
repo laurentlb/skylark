@@ -236,6 +236,7 @@ type scanner struct {
 	dents          int       // number of saved INDENT (>0) or OUTDENT (<0) tokens to return
 	lineStart      bool      // after NEWLINE; convert spaces to indentation tokens
 <<<<<<< HEAD
+<<<<<<< HEAD
 	keepComments   bool      // accumulate comments in slice
 	lineComments   []Comment // list of full line comments (if keepComments)
 	suffixComments []Comment // list of suffix comments (if keepComments)
@@ -279,6 +280,11 @@ type scanner struct {
 	lineComments   []Comment // list of full line comments (if keepComments was true)
 	suffixComments []Comment // list of suffix comments (if keepComments was true)
 >>>>>>> - Removed the .Suffix boolean
+=======
+	keepComments   bool      // accumulate comments in slice
+	lineComments   []Comment // list of full line comments (if keepComments)
+	suffixComments []Comment // list of suffix comments (if keepComments)
+>>>>>>> assignComments leaves early if there is no comments
 }
 
 func newScanner(filename string, src interface{}, keepComments bool) (*scanner, error) {

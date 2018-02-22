@@ -69,10 +69,14 @@ type Comment struct {
 type Comments struct {
 	Before []Comment // whole-line comments before this expression
 <<<<<<< HEAD
+<<<<<<< HEAD
 	Suffix []Comment // end-of-line comments after this expression (up to 1)
 =======
 	Suffix []Comment // end-of-line comments after this expression
 >>>>>>> Attach comments to AST nodes.
+=======
+	Suffix []Comment // end-of-line comments after this expression (up to 1)
+>>>>>>> assignComments leaves early if there is no comments
 
 	// For top-level expressions only, After lists whole-line
 	// comments following the expression.

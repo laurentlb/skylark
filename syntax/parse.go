@@ -68,6 +68,7 @@ func Parse(filename string, src interface{}, mode Mode) (f *File, err error) {
 	}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	p.assignComments(f)
 =======
 	if keepComments {
@@ -77,14 +78,16 @@ func Parse(filename string, src interface{}, mode Mode) (f *File, err error) {
 		p.assignComments(f)
 	}
 >>>>>>> Attach comments to AST nodes.
+=======
+	p.assignComments(f)
+>>>>>>> assignComments leaves early if there is no comments
 	return f, nil
 }
 
 // ParseExpr parses a Skylark expression.
 // See Parse for explanation of parameters.
 func ParseExpr(filename string, src interface{}, mode Mode) (expr Expr, err error) {
-	// TODO(laurentlb): support RetainComments
-	in, err := newScanner(filename, src, false)
+	in, err := newScanner(filename, src, mode&RetainComments != 0)
 	if err != nil {
 		return nil, err
 	}
@@ -104,12 +107,16 @@ func ParseExpr(filename string, src interface{}, mode Mode) (expr Expr, err erro
 		p.in.errorf(p.in.pos, "got %#v after expression, want EOF", p.tok)
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 	p.assignComments(expr)
 =======
 	if mode&RetainComments != 0 {
 		p.assignComments(expr)
 	}
 >>>>>>> Address review comments
+=======
+	p.assignComments(expr)
+>>>>>>> assignComments leaves early if there is no comments
 	return expr, nil
 }
 
