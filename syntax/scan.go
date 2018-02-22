@@ -224,6 +224,9 @@ type scanner struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> - Removed the .Suffix boolean
 	complete       []byte    // entire input
 	rest           []byte    // rest of input
 	token          []byte    // token being scanned
@@ -232,6 +235,7 @@ type scanner struct {
 	indentstk      []int     // stack of indentation levels
 	dents          int       // number of saved INDENT (>0) or OUTDENT (<0) tokens to return
 	lineStart      bool      // after NEWLINE; convert spaces to indentation tokens
+<<<<<<< HEAD
 	keepComments   bool      // accumulate comments in slice
 	lineComments   []Comment // list of full line comments (if keepComments)
 	suffixComments []Comment // list of suffix comments (if keepComments)
@@ -270,6 +274,11 @@ type scanner struct {
 	keepComments bool      // /accumulate comments in slice
 	comments     []Comment // list of comments seen in the file (if keepComments was true)
 >>>>>>> Remove the COMMENT tokens
+=======
+	keepComments   bool      // /accumulate comments in slice
+	lineComments   []Comment // list of full line comments (if keepComments was true)
+	suffixComments []Comment // list of suffix comments (if keepComments was true)
+>>>>>>> - Removed the .Suffix boolean
 }
 
 func newScanner(filename string, src interface{}, keepComments bool) (*scanner, error) {
@@ -564,6 +573,7 @@ start:
 			} else {
 				sc.suffixComments = append(sc.suffixComments, Comment{val.pos, val.raw})
 			}
+<<<<<<< HEAD
 =======
 		sc.endToken(val)
 		if sc.blank {
@@ -588,6 +598,8 @@ start:
 			is_suffix := !blank
 			sc.comments = append(sc.comments, Comment{val.pos, val.raw, is_suffix})
 >>>>>>> Remove the COMMENT tokens
+=======
+>>>>>>> - Removed the .Suffix boolean
 		}
 	}
 

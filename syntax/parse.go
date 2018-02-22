@@ -19,6 +19,7 @@ const debug = false
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 // A Mode value is a set of flags (or 0) that controls optional parser functionality.
 type Mode uint
 
@@ -36,6 +37,10 @@ type Mode uint
 =======
 type Mode uint // A Mode value is a set of flags (or 0) that controls optional parser functionality.
 >>>>>>> Address review comments
+=======
+// A Mode value is a set of flags (or 0) that controls optional parser functionality.
+type Mode uint
+>>>>>>> - Removed the .Suffix boolean
 
 const (
 	RetainComments Mode = 1 << iota // retain comments in AST; see Node.Comments
@@ -1047,6 +1052,7 @@ func (p *parser) assignComments(n Node) {
 
 	pre, post := flattenAST(n)
 
+<<<<<<< HEAD
 	// Assign line comments to syntax immediately following.
 	line := p.in.lineComments
 	for _, x := range pre {
@@ -1069,7 +1075,10 @@ func (p *parser) assignComments(n Node) {
 		}
 	}
 
+=======
+>>>>>>> - Removed the .Suffix boolean
 	// Assign line comments to syntax immediately following.
+	line := p.in.lineComments
 	for _, x := range pre {
 		start, _ := x.Span()
 <<<<<<< HEAD
@@ -1133,7 +1142,11 @@ func (p *parser) assignComments(n Node) {
 >>>>>>> Address review comments
 
 	// Assign suffix comments to syntax immediately before.
+<<<<<<< HEAD
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	suffix := p.in.suffixComments
+>>>>>>> - Removed the .Suffix boolean
 	for i := len(post) - 1; i >= 0; i-- {
 		x := post[i]
 
@@ -1170,19 +1183,13 @@ func (p *parser) assignComments(n Node) {
 		}
 	}
 
-	// We assigned suffix comments in reverse.
-	// If multiple suffix comments were appended to the same
-	// node, they are now in reverse. Fix that.
-	for _, x := range post {
-		reverseComments(x.Comments().Suffix)
-	}
-
 	// Remaining suffix comments go at beginning of file.
 	if len(suffix) > 0 {
 		n.AllocComments()
 		n.Comments().Before = append(n.Comments().Before, suffix...)
 	}
 }
+<<<<<<< HEAD
 
 // reverseComments reverses the []Comment list.
 func reverseComments(list []Comment) {
@@ -1191,3 +1198,5 @@ func reverseComments(list []Comment) {
 	}
 >>>>>>> Attach comments to AST nodes.
 }
+=======
+>>>>>>> - Removed the .Suffix boolean

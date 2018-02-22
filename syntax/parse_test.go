@@ -293,6 +293,7 @@ func writeTree(out *bytes.Buffer, x reflect.Value) {
 			name := x.Type().Field(i).Name
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			if name == "commentsRef" {
 =======
 			//strings.Replace(, " Comments=(Comments)", "", -1)
@@ -301,6 +302,9 @@ func writeTree(out *bytes.Buffer, x reflect.Value) {
 =======
 			if name == "CommentsRef" {
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+			if name == "commentsRef" {
+>>>>>>> - Removed the .Suffix boolean
 				continue // skip comments fields
 			}
 			if f.Type() == reflect.TypeOf(syntax.Token(0)) {

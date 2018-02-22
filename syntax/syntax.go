@@ -43,6 +43,7 @@ type Node interface {
 // A Comment represents a single # comment.
 type Comment struct {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	Start Position
 	Text  string // without trailing newline
 =======
@@ -58,6 +59,10 @@ type Comment struct {
 >>>>>>> Remove global constant keepComments
 	Suffix bool   // an end-of-line (not whole line) comment
 >>>>>>> - Rename flattenAST
+=======
+	Start Position
+	Text  string // without trailing newline
+>>>>>>> - Removed the .Suffix boolean
 }
 
 // Comments collects the comments associated with an expression.
@@ -74,6 +79,7 @@ type Comments struct {
 	After []Comment
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 // A commentsRef is a possibly-nil reference to a set of comments.
@@ -101,15 +107,19 @@ func (c *Comments) Comment() *Comments {
 =======
 // A CommentsRef is a possibly-nil reference to a set of comments.
 // A CommentsRef is embedded in each type of syntax node,
+=======
+// A commentsRef is a possibly-nil reference to a set of comments.
+// A commentsRef is embedded in each type of syntax node,
+>>>>>>> - Removed the .Suffix boolean
 // and provides its Comments and AllocComments methods.
-type CommentsRef struct{ ref *Comments }
+type commentsRef struct{ ref *Comments }
 
 // Comments returns the comments associated with a syntax node,
 // or nil if AllocComments has not yet been called.
-func (cr CommentsRef) Comments() *Comments { return cr.ref }
+func (cr commentsRef) Comments() *Comments { return cr.ref }
 
 // AllocComments enables comments to be associated with a syntax node.
-func (cr *CommentsRef) AllocComments() {
+func (cr *commentsRef) AllocComments() {
 	if cr.ref == nil {
 		cr.ref = new(Comments)
 	}
@@ -133,6 +143,7 @@ type File struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -143,6 +154,9 @@ type File struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	Path  string
 	Stmts []Stmt
 
@@ -182,6 +196,7 @@ type AssignStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -192,6 +207,9 @@ type AssignStmt struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	OpPos Position
 	Op    Token // = EQ | {PLUS,MINUS,STAR,PERCENT}_EQ
 	LHS   Expr
@@ -209,6 +227,7 @@ type Function struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -219,6 +238,9 @@ type Function struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	StartPos Position // position of DEF or LAMBDA token
 	Params   []Expr   // param = ident | ident=expr | *ident | **ident
 	Body     []Stmt
@@ -240,6 +262,7 @@ type DefStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -250,6 +273,9 @@ type DefStmt struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	Def  Position
 	Name *Ident
 	Function
@@ -265,6 +291,7 @@ type ExprStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -275,6 +302,9 @@ type ExprStmt struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	X Expr
 }
 
@@ -288,6 +318,7 @@ type IfStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -298,6 +329,9 @@ type IfStmt struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	If      Position // IF or ELIF
 	Cond    Expr
 	True    []Stmt
@@ -326,6 +360,7 @@ type LoadStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -336,6 +371,9 @@ type LoadStmt struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	Load   Position
 	Module *Literal // a string
 	From   []*Ident // name defined in loading module
@@ -352,6 +390,7 @@ type BranchStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -362,6 +401,9 @@ type BranchStmt struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	Token    Token // = BREAK | CONTINUE | PASS
 	TokenPos Position
 }
@@ -375,6 +417,7 @@ type ReturnStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -385,6 +428,9 @@ type ReturnStmt struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	Return Position
 	Result Expr // may be nil
 }
@@ -424,6 +470,7 @@ type Ident struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -434,6 +481,9 @@ type Ident struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	NamePos Position
 	Name    string
 
@@ -452,6 +502,7 @@ type Literal struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -462,6 +513,9 @@ type Literal struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	Token    Token // = STRING | INT
 	TokenPos Position
 	Raw      string      // uninterpreted text
@@ -477,6 +531,7 @@ type CallExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -487,6 +542,9 @@ type CallExpr struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	Fn     Expr
 	Lparen Position
 	Args   []Expr
@@ -503,6 +561,7 @@ type DotExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -513,6 +572,9 @@ type DotExpr struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	X       Expr
 	Dot     Position
 	NamePos Position
@@ -531,6 +593,7 @@ type Comprehension struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -541,6 +604,9 @@ type Comprehension struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	Curly   bool // {x:y for ...} or {x for ...}, not [x for ...]
 	Lbrack  Position
 	Body    Expr
@@ -557,6 +623,7 @@ type ForStmt struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -567,6 +634,9 @@ type ForStmt struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	For  Position
 	Vars Expr // name, or tuple of names
 	X    Expr
@@ -583,6 +653,7 @@ type ForClause struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -593,6 +664,9 @@ type ForClause struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	For  Position
 	Vars Expr // name, or tuple of names
 	In   Position
@@ -609,6 +683,7 @@ type IfClause struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -619,6 +694,9 @@ type IfClause struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	If   Position
 	Cond Expr
 }
@@ -633,6 +711,7 @@ type DictExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -643,6 +722,9 @@ type DictExpr struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	Lbrace Position
 	List   []Expr // all *DictEntrys
 	Rbrace Position
@@ -658,6 +740,7 @@ type DictEntry struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -668,6 +751,9 @@ type DictEntry struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	Key   Expr
 	Colon Position
 	Value Expr
@@ -688,6 +774,7 @@ type LambdaExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -698,6 +785,9 @@ type LambdaExpr struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	Lambda Position
 	Function
 }
@@ -712,6 +802,7 @@ type ListExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -722,6 +813,9 @@ type ListExpr struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	Lbrack Position
 	List   []Expr
 	Rbrack Position
@@ -736,6 +830,7 @@ type CondExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -746,6 +841,9 @@ type CondExpr struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	If      Position
 	Cond    Expr
 	True    Expr
@@ -764,6 +862,7 @@ type TupleExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -774,6 +873,9 @@ type TupleExpr struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	Lparen Position // optional (e.g. in x, y = 0, 1), but required if List is empty
 	List   []Expr
 	Rparen Position
@@ -792,6 +894,7 @@ type UnaryExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -802,6 +905,9 @@ type UnaryExpr struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	OpPos Position
 	Op    Token
 	X     Expr
@@ -817,6 +923,7 @@ type BinaryExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -827,6 +934,9 @@ type BinaryExpr struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	X     Expr
 	OpPos Position
 	Op    Token
@@ -844,6 +954,7 @@ type SliceExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -854,6 +965,9 @@ type SliceExpr struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	X            Expr
 	Lbrack       Position
 	Lo, Hi, Step Expr // all optional
@@ -870,6 +984,7 @@ type IndexExpr struct {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	commentsRef
 =======
 	Comments
@@ -880,6 +995,9 @@ type IndexExpr struct {
 =======
 	CommentsRef
 >>>>>>> Add CommentsRef to allow allocating comments
+=======
+	commentsRef
+>>>>>>> - Removed the .Suffix boolean
 	X      Expr
 	Lbrack Position
 	Y      Expr
