@@ -1167,6 +1167,7 @@ func (p *parser) assignComments(n Node) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if len(suffix) > 0 && end.isBefore(suffix[len(suffix)-1].Start) {
 			x.AllocComments()
 			x.Comments().Suffix = append(x.Comments().Suffix, suffix[len(suffix)-1])
@@ -1183,17 +1184,14 @@ func (p *parser) assignComments(n Node) {
 			xcom.Suffix = append(xcom.Suffix, suffix[len(suffix)-1])
 =======
 		for len(suffix) > 0 && end.isBefore(suffix[len(suffix)-1].Start) {
+=======
+		if len(suffix) > 0 && end.isBefore(suffix[len(suffix)-1].Start) {
+>>>>>>> Address review comments (for -> if, removed useless code about suffix comments)
 			x.AllocComments()
 			x.Comments().Suffix = append(x.Comments().Suffix, suffix[len(suffix)-1])
 >>>>>>> Address review comments
 			suffix = suffix[:len(suffix)-1]
 		}
-	}
-
-	// Remaining suffix comments go at beginning of file.
-	if len(suffix) > 0 {
-		n.AllocComments()
-		n.Comments().Before = append(n.Comments().Before, suffix...)
 	}
 }
 <<<<<<< HEAD
