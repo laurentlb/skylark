@@ -861,8 +861,12 @@ func (p *parser) parsePrimary() Expr {
 			return &TupleExpr{Lparen: lparen, Rparen: rparen}
 		}
 		e := p.parseExpr(true) // allow trailing comma
-		p.consume(RPAREN)
-		return e
+		rparen := p.consume(RPAREN)
+		return &ParenExpr{
+			X:      e,
+			Lparen: lparen,
+			Rparen: rparen,
+		}
 
 	case MINUS, PLUS:
 		// unary minus/plus:
